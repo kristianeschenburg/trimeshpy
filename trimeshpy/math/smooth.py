@@ -32,7 +32,7 @@ def laplacian_smooth(triangles, vertices, nb_iter=1, diffusion_step=1.0,
 
     vertices_csc = csc_matrix(vertices)
 
-    if isinstance(diffusion_step, (int, long, float)):
+    if isinstance(diffusion_step, (int, float)):
         diffusion_step = diffusion_step * np.ones(len(vertices))
 
     for i in range(nb_iter):
@@ -80,7 +80,7 @@ def curvature_normal_smooth(triangles, vertices, nb_iter=1,
 
     vertices_csc = csc_matrix(vertices)
 
-    if isinstance(diffusion_step, (int, long, float)):
+    if isinstance(diffusion_step, (int, float)):
         diffusion_step = diffusion_step * np.ones(len(vertices))
 
     for i in range(nb_iter):
@@ -110,7 +110,7 @@ def positive_curvature_normal_smooth(triangles, vertices, nb_iter=1,
         mem_map = np.memmap(flow_file, dtype=G_DTYPE, mode='w+',
                             shape=(nb_iter, vertices.shape[0], vertices.shape[1]))
 
-    if isinstance(diffusion_step, (int, long, float)):
+    if isinstance(diffusion_step, (int, float)):
         diffusion_step = diffusion_step * np.ones(len(vertices))
 
     curvature_normal_mtx = mean_curvature_normal_matrix(
@@ -138,7 +138,7 @@ def positive_curvature_normal_smooth(triangles, vertices, nb_iter=1,
 def volume_curvature_normal_smooth(triangles, vertices, nb_iter=1,
                                    diffusion_step=1.0, area_weighted=False,
                                    backward_step=False, flow_file=None):
-    if isinstance(diffusion_step, (int, long, float)):
+    if isinstance(diffusion_step, (int, float)):
         diffusion_step = diffusion_step * np.ones(len(vertices))
 
     if flow_file is not None:
@@ -174,7 +174,7 @@ def mass_stiffness_smooth(triangles, vertices, nb_iter=1,
         triangles, vertices_csc, area_weighted=False)
     # mass_mtx = mass_matrix(triangles, vertices_csc).astype(np.float)
 
-    if isinstance(diffusion_step, (int, long, float)):
+    if isinstance(diffusion_step, (int, float)):
         diffusion_step = diffusion_step * np.ones(len(vertices))
 
     if flow_file is not None:
@@ -209,7 +209,7 @@ def positive_mass_stiffness_smooth(triangles, vertices, nb_iter=1,
         triangles, vertices, area_weighted=False)
     # mass_mtx = mass_matrix(triangles, vertices_csc)
 
-    if isinstance(diffusion_step, (int, long, float)):
+    if isinstance(diffusion_step, (int, float)):
         diffusion_step = diffusion_step * np.ones(len(vertices))
 
     if flow_file is not None:
@@ -258,7 +258,7 @@ def volume_mass_stiffness_smooth(triangles, vertices, nb_iter=1,
     curvature_normal_mtx = mean_curvature_normal_matrix(
         triangles, vertices, area_weighted=False)
 
-    if isinstance(diffusion_step, (int, long, float)):
+    if isinstance(diffusion_step, (int, float)):
         diffusion_step = diffusion_step * np.ones(len(vertices))
 
     if flow_file is not None:

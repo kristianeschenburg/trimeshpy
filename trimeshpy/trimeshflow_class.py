@@ -18,15 +18,20 @@ class TriMeshFlow(TriMesh):
     def __init__(self, triangles, vertices_flow,
                  dtype=np.float64, atol=1e-8, assert_args=True):
 
+        try:
+            basestring
+        except NameError:
+            basestring = str
+
         self.__dtype__ = dtype
         self.__atol__ = atol
         self.set_triangles(triangles)
-       
+
         if isinstance(vertices_flow, basestring):
             self.set_vertices_flow_from_memmap(vertices_flow)
-        else :
+        else:
             self.set_vertices_flow(vertices_flow)
-            
+
         if assert_args:
             self._assert_init_args_()
 
@@ -44,7 +49,7 @@ class TriMeshFlow(TriMesh):
         assert(self.__vertices_flow__.ndim == 2 or self.__vertices_flow__.ndim == 3), \
             ("vertices_flow array should only have 2 dimension, not: %r" %
              self.__vertices_flow__.ndim)
-            
+
     def _assert_edges_(self):
         return
 
