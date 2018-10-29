@@ -219,6 +219,8 @@ def positive_mass_stiffness_smooth(triangles, vertices, nb_iter=1,
     for i in range(nb_iter):
         stdout.write("\r step %d on %d done" % (i, nb_iter))
         stdout.flush()
+        
+        # convert vertices to dense matrix
         if flow_file is not None:
             mem_map[i] = vertices_csc.todense()
 
