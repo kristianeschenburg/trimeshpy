@@ -1,5 +1,6 @@
 import sys
-sys.path.append('../trimeshpy/', '../surfaceflow/')
+sys.path.append('../trimeshpy/')
+sys.path.append('../surfaceflow/')
 
 import numpy as np
 import nibabel as nb
