@@ -1,3 +1,6 @@
+import sys
+sys.path.append('../trimeshpy/', '../surfaceflow/')
+
 import numpy as np
 import nibabel as nb
 
@@ -7,7 +10,23 @@ import trimeshpy
 from trimeshpy.trimeshflow_vtk import TriMeshFlow_Vtk
 from trimeshpy.vtk_util import lines_to_vtk_polydata, save_polydata
 
-def flowlengths(flow):
+from dipy.core import geometry
+
+def flow_lengths(flow):
+
+    """
+    Compute the flow line lengths.
+
+    Parameters:
+    - - - - -
+    flow: float, array
+        coordinates of each flow line, for each vertex
+    
+    Returns:
+    - - - -
+    linelengths: float, array
+        length of each flow trajectory for each vertex
+    """
 
     diff = flow[1:,:,:] - flow[:-1,:,:]
     steplengths = np.sqrt((diff**2).sum(2))
@@ -15,7 +34,7 @@ def flowlengths(flow):
 
     return linelengths
 
-def compute_flow(vertices, triangles, steps=10, timestep=5):
+def flow_trajectories(vertices, triangles, steps=10, timestep=5):
 
     """
     Compute the positive mass stiffness surface flow of a surface mesh.
@@ -42,3 +61,27 @@ def compute_flow(vertices, triangles, steps=10, timestep=5):
     flow_lines = tri_mesh_flow.get_vertices_flow()
 
     return flow_lines
+
+def flow_angle(source_vertex, target_vertex):
+
+    """
+    Compute normalized unit vector step direction between two surfaces.
+
+    Parameters:
+    - - - - -
+    source_vertex: float, array
+        source mesh vertices
+    target_vertex: float, array
+        target mesh vertices
+    """
+
+    mvmt = target_vertex - source_vertex
+    mvmt = mvmt / np.linalg.norm(mvmt, axis=1)[:, None]
+
+    x = mvmt[:, 0]
+    y = mvmt[:, 1]
+    z = mvmt[:, 2]
+
+    [r, theta, phi] = geometry.cart2sphere(x, y, z)
+
+    return r, theta, phi
