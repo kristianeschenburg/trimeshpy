@@ -1,5 +1,4 @@
 import sys
-sys.path.append('..')
 sys.path.append('../trimeshpy/')
 sys.path.append('../surfaceflow/')
 
@@ -36,7 +35,7 @@ def flow_lengths(flow):
 
     return linelengths
 
-def flow_trajectories(vertices, triangles, steps=10, timestep=5):
+def flow_trajectories(vertices, triangles, flow_file, steps=10, timestep=5):
 
     """
     Compute the positive mass stiffness surface flow of a surface mesh.
@@ -47,8 +46,8 @@ def flow_trajectories(vertices, triangles, steps=10, timestep=5):
         list of vertices in mesh
     triangles: int array
         list of faces in mesh
-    surface_file: string
-        surface file on which to compute flow
+    flow_file: string
+        file (memory map) in which to save flow lines
     steps: int
         number of diffusion steps
     timestep: int
@@ -56,9 +55,9 @@ def flow_trajectories(vertices, triangles, steps=10, timestep=5):
     """
 
     # initialize flow object
-    tri_mesh_flow = TriMeshFlow_Vtk(triangles, vertices)\
+    tri_mesh_flow = TriMeshFlow_Vtk(triangles, vertices)
     # compute final flow surface
-    points = tri_mesh_flow.positive_mass_stiffness_smooth(steps, timestep, flow_file=None)
+    points = tri_mesh_flow.positive_mass_stiffness_smooth(steps, timestep, flow_file=flow_file)
     # get flow trajectory for each mesh vertex
     flow_lines = tri_mesh_flow.get_vertices_flow()
 
